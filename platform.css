@@ -71,3 +71,4 @@ body{margin:0;color:var(--ink);background:var(--paper);font:15px/1.65 "Malgun Go
 .answers.text-answers button{display:flex;gap:12px;text-align:left;font-size:15px;align-items:baseline}
 .answers.text-answers button span:first-child{font-weight:750;flex:0 0 20px}
 .review-choices li{padding:4px 0}
+.concept-card{border:1px solid var(--line);border-radius:9px;padding:14px 18px;margin:14px 0;background:#fbfcff}.concept-card h3{margin:0 0 8px}.concept-card p:last-child{margin-bottom:0}.concept-card[hidden]{display:none}

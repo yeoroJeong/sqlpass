@@ -6,223 +6,169 @@
 @media(max-width:760px){.layout{display:block;padding:12px}aside{position:static;margin-bottom:12px}nav{display:flex;flex-wrap:wrap}nav a,nav .level-3{padding:4px 8px}table:has(.check) thead{display:none}table:has(.check),table:has(.check) tbody{display:block}table:has(.check) tr{display:grid;grid-template-columns:30px 1fr;gap:2px 8px;padding:10px 6px;border-bottom:1px solid var(--border)}table:has(.check) td{border:0;padding:0}table:has(.check) td:nth-child(2){font-weight:bold}table:has(.check) td:nth-child(n+3){grid-column:2}table:has(.check) td:nth-child(4){color:var(--accent);font-size:13px}table:has(.check) td:nth-child(4)::before{content:'CBT 복습 · '}}
 @media print{aside{display:none}.layout{display:block;padding:0}main{border:0;padding:0}tr{break-inside:avoid}}
 </style>
-<link rel="stylesheet" href="platform.css"><body class="sheet-page"><header class="platform-header"><a class="wordmark" href="index.html">SQLPass <span>CBT</span></a><nav aria-label="주 메뉴"><a href="index.html">학습 대시보드</a><a href="cheatsheet.html" aria-current="page">핵심 치트시트</a><a href="cbt.html">실전 CBT</a></nav><a href="cbt.html" class="action header-action">문제 풀기 →</a></header><div class="layout"><aside><strong>목차</strong><nav aria-label="공부시트 목차"><a class="level-2" href="#topic-1">Ⅰ. 데이터 모델링의 이해</a><a class="level-2" href="#topic-2">Ⅱ. SQL 기본 및 활용</a><a class="level-3" href="#topic-3">결과표를 손으로 그리는 세 가지 유형</a><a class="level-3" href="#topic-4">트랜잭션 · Ⅱ-26, 101~103, 119~124</a><a class="level-2" href="#pdf-review">요약정리 보강</a><a class="level-2" href="#topic-5">기출 대비 자가진단 10문제</a></nav><output id="progress" aria-live="polite"></output></aside><main><h1>SQLD 핵심 공부시트</h1><input class="sheet-search" id="concept-search" type="search" aria-label="개념 검색" placeholder="개념 검색 · 예: NULL, 조인, ROLLBACK"><p id="search-result" hidden aria-live="polite"></p>
-<p>첨부 문제집 176문항과 정답·해설을 바탕으로, CBT에서 다시 풀 문제를 개념별로 연결했다. <strong>Ⅰ·Ⅱ는 과목, 뒤 숫자는 교재 문항 번호</strong>다. 기출 대비 유형은 공개 출제 영역을 바탕으로 만든 연습이며, 실제 회차의 원문과 출제 빈도는 확인 범위에 포함되지 않는다.</p>
-<p><strong>첫 회독</strong>은 NULL → 외부 조인 → 집계·윈도우 → 트랜잭션 → 정규화 순서로 진행한다. 정답 번호를 보기 전에 각 문제에서 <strong>남는 행, 값, 취소 범위</strong> 중 무엇을 묻는지 적어 본다.</p>
-<h2 id="topic-1">Ⅰ. 데이터 모델링의 이해</h2>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-  <th>체크</th>
-  <th>문제에서 판단할 것</th>
-  <th>핵심 규칙</th>
-  <th>CBT 복습</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+<link rel="stylesheet" href="platform.css"><body class="sheet-page"><header class="platform-header"><a class="wordmark" href="index.html">SQLPass <span>CBT</span></a><nav aria-label="주 메뉴"><a href="index.html">학습 대시보드</a><a href="cheatsheet.html" aria-current="page">핵심 치트시트</a><a href="cbt.html">실전 CBT</a></nav><a href="cbt.html" class="action header-action">문제 풀기 →</a></header><div class="layout"><aside><strong>목차</strong><nav aria-label="공부시트 목차"><a href="#topic-1">1. 데이터 모델링</a><a href="#topic-2">2. Oracle SQL 기초</a><a href="#topic-3">3. SQL 활용</a><a href="#topic-4">4. 관리 구문</a><a href="#topic-5">자가진단 10문제</a><a href="#sources">참고 자료</a></nav><output id="progress" aria-live="polite"></output></aside><main><h1>SQLD 치트시트</h1>
+<p>모델링 → Oracle SQL 기초 → SQL 활용 → 관리 구문 순서로 학습하세요. 개념을 읽은 뒤 예제 결과를 먼저 예상하고, CBT에서 해당 유형을 복습할 수 있습니다.</p>
+<input class="sheet-search" id="concept-search" type="search" aria-label="개념 검색" placeholder="개념 검색 · 예: TO_DATE, LEFT JOIN, ROLLBACK">
+<p id="search-result" hidden aria-live="polite"></p><h2 id="topic-1">1. 데이터 모델링</h2><article class="concept-card" data-search><h3>ERD를 읽는 순서</h3><ol><li>엔터티에서 관리하는 대상을 찾고 속성과 인스턴스를 구분합니다.</li><li>관계 양쪽의 최소·최대 참여 수를 각각 읽습니다. 고객에게 주문은 0건 이상일 수 있고, 주문마다 고객이 한 명일 수 있습니다.</li><li>부모의 키가 자식의 PK에도 들어가는지 확인합니다. <code>주문상세(주문ID, 상품ID)</code>에서 주문ID가 PK의 일부라면 주문과 주문상세는 식별관계입니다.</li></ol></article><article class="concept-card" data-search><h3>정규화와 반정규화</h3><p>1NF는 속성값의 원자성, 2NF는 복합키 일부에 대한 부분 종속 제거, 3NF는 비키 속성을 거치는 이행 종속 제거를 확인합니다.</p><pre><code>(주문ID, 상품ID) → 수량
+상품ID → 상품명       부분 종속 → 상품 테이블로 분리
+직원ID → 부서ID → 부서명   이행 종속 → 부서 테이블로 분리</code></pre><p>반정규화로 중복 저장할 때는 조회 비용과 갱신 정합성을 함께 검토합니다. <a href="cbt.html?question=181">정규화 연습</a></p></article><div class="table-wrap"><table><thead><tr><th>체크</th><th>판단할 것</th><th>핵심 규칙</th><th>CBT 복습</th></tr></thead><tbody><tr>
+  <td class="check"><input type="checkbox" data-key="0" aria-label="복습 완료"></td>
   <td>외부·개념·내부 스키마</td>
   <td>사용자별 관점 → 외부, 조직 전체 논리 구조 → 개념, 물리 저장 구조 → 내부</td>
   <td>Ⅰ-5, 6, 22 <a href="cbt.html?question=5">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="1" aria-label="복습 완료"></td>
   <td>엔터티·속성·도메인</td>
   <td>고객은 엔터티, 고객명은 속성, 고객명이 가질 수 있는 값의 범위는 도메인. 합계처럼 다른 값에서 계산하면 파생 속성</td>
   <td>Ⅰ-9~12, 15, 17, 18, 33 <a href="cbt.html?question=9">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="2" aria-label="복습 완료"></td>
   <td>관계의 기수성과 선택성</td>
   <td>1:N은 최대 연결 수, 필수·선택은 최소 연결 수. 고객에게 주문이 없어도 되는지와 주문이 고객 없이 가능한지를 각각 판단</td>
   <td>Ⅰ-7, 21, 23 <a href="cbt.html?question=7">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="3" aria-label="복습 완료"></td>
   <td>식별자와 식별관계</td>
   <td>주식별자 조건은 유일성·최소성·불변성·존재성. 부모 PK가 자식 PK에 포함되면 식별관계, 자식의 비PK FK가 되면 비식별관계</td>
   <td>Ⅰ-26~31, 42, 50 <a href="cbt.html?question=26">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="4" aria-label="복습 완료"></td>
   <td>1NF·2NF·3NF 위반</td>
   <td>반복값·비원자값 → 1NF. 복합키 일부에 종속 → 2NF. 키가 아닌 속성을 거쳐 종속 → 3NF</td>
   <td>Ⅰ-34~45, 47 <a href="cbt.html?question=34">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="5" aria-label="복습 완료"></td>
   <td>모델에 나타난 트랜잭션</td>
   <td>주문과 주문상세를 한 작업으로 처리해야 하면 둘 다 성공한 뒤 커밋</td>
   <td>Ⅰ-48 <a href="cbt.html?question=48">첫 문항 풀기 →</a></td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>종속성 직접 긋기</strong></p>
-<pre><code class="language-text">주문상세 PK = (주문번호, 상품번호)
-(주문번호, 상품번호) → 주문수량
-          상품번호   → 상품명      ⇒ 부분 종속, 2NF
-
-학생번호 → 학과번호 → 학과명       ⇒ 이행 종속, 3NF
-</code></pre>
-<h2 id="topic-2">Ⅱ. SQL 기본 및 활용</h2>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-  <th>체크</th>
-  <th>문제에서 판단할 것</th>
-  <th>핵심 규칙</th>
-  <th>CBT 복습</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr></tbody></table></div><span id="pdf-review"></span><h2 id="topic-2">2. Oracle SQL 기초</h2><article class="concept-card" data-search><h3>SELECT, DUAL, 리터럴과 별칭</h3><p>Oracle 19c에서도 실행할 수 있는 예제입니다. 테이블 없이 식을 계산할 때 한 행을 가진 <code>DUAL</code>을 사용합니다. 문자열은 작은따옴표, 대소문자나 공백을 보존할 별칭은 큰따옴표로 감쌉니다.</p><pre><code>SELECT 2 + 3 AS total, 'SQL' || 'D' AS "시험 이름",
+       DATE '2026-11-01' AS first_day
+FROM dual;
+-- TOTAL = 5, 시험 이름 = SQLD, FIRST_DAY = 2026-11-01 자정</code></pre><p>처리 순서는 FROM·JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY입니다. Oracle 19c에서는 같은 쿼리 블록의 SELECT 별칭을 ORDER BY에서 사용할 수 있습니다.</p></article><article class="concept-card" data-search><h3>자료형과 날짜 변환</h3><p><code>NUMBER(p,s)</code>는 전체 유효 자릿수와 소수 자릿수를 지정합니다. <code>CHAR</code>는 고정 길이, <code>VARCHAR2</code>는 가변 길이입니다. <code>DATE</code>에는 시·분·초까지 저장되며 <code>TIMESTAMP</code>는 초의 소수부를 저장할 수 있습니다.</p><pre><code>SELECT TO_DATE('2026-11-11 13:30', 'YYYY-MM-DD HH24:MI') AS at_time,
+       TO_CHAR(DATE '2026-11-11', 'YYYY/MM/DD') AS label,
+       DATE '2026-11-11' + 1 AS next_day,
+       TO_NUMBER('42') AS amount
+FROM dual;</code></pre><p>TO_DATE는 문자열 → 날짜, TO_CHAR는 날짜나 숫자 → 문자열입니다. 날짜 조건에는 <code>created_at &gt;= DATE '2026-11-01' AND created_at &lt; DATE '2026-12-01'</code>처럼 끝 경계를 제외하면 시간값이 있는 월말 행도 포함됩니다.</p></article><article class="concept-card" data-search><h3>NULL, 문자열·숫자 함수, CASE</h3><p>Oracle에서 길이 0의 문자열은 NULL로 처리합니다. NULL 비교에는 <code>IS NULL</code>을 쓰고, 대체값은 NVL 또는 COALESCE를 사용합니다. NULLIF(a,b)는 두 값이 같을 때 NULL을 반환합니다.</p><pre><code>SELECT NVL(NULL, 0) AS n, SUBSTR('ORACLE', 2, 3) AS part,
+       ROUND(15.67, 1) AS rounded, TRUNC(15.67, 1) AS cut,
+       CASE WHEN 70 &gt;= 60 THEN 'PASS' ELSE 'RETRY' END AS result
+FROM dual;
+-- 0, RAC, 15.7, 15.6, PASS</code></pre><p>NVL2(x,a,b)는 x에 값이 있으면 a, NULL이면 b를 반환합니다. DECODE는 값별 분기에, CASE는 범위 조건을 포함한 분기에 사용할 수 있습니다.</p><p>LIKE에서 %는 0글자 이상, _는 한 글자입니다. Oracle의 ORDER BY 기본 NULL 위치는 ASC에서 뒤, DESC에서 앞입니다. <code>NULLS FIRST</code> 또는 <code>NULLS LAST</code>로 지정할 수 있습니다.</p></article><article class="concept-card" data-search><h3>조인과 집계로 결과 행 세기</h3><p>LEFT JOIN은 왼쪽 행을 보존합니다. 오른쪽 필터를 ON에 두면 매칭만 제한하고, WHERE에서 오른쪽 NULL 확장행을 걸러내면 왼쪽 고객도 사라질 수 있습니다.</p><pre><code>WITH customers AS (
+  SELECT 1 AS id FROM dual UNION ALL SELECT 2 FROM dual
+), payments AS (
+  SELECT 1 AS customer_id, 80 AS amount FROM dual
+)
+SELECT c.id, COUNT(*) AS joined_rows, COUNT(p.amount) AS paid
+FROM customers c
+LEFT JOIN payments p ON p.customer_id = c.id AND p.amount &gt;= 50
+GROUP BY c.id
+ORDER BY c.id;
+-- ID 1: joined_rows 1, paid 1 / ID 2: joined_rows 1, paid 0</code></pre><p>집계 전 행 조건은 WHERE, 집계 후 그룹 조건은 HAVING에 둡니다. <a href="cbt.html?question=185">외부 조인 연습</a></p></article><div class="table-wrap"><table><thead><tr><th>체크</th><th>판단할 것</th><th>핵심 규칙</th><th>CBT 복습</th></tr></thead><tbody><tr>
+  <td class="check"><input type="checkbox" data-key="6" aria-label="복습 완료"></td>
   <td>SELECT의 논리 처리 순서</td>
   <td>FROM·JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY. WHERE는 행, HAVING은 그룹을 걸러낸다</td>
   <td>Ⅱ-7, 8, 14, 19, 28, 32 <a href="cbt.html?question=57">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="7" aria-label="복습 완료"></td>
   <td>NULL 비교와 집계</td>
   <td><code>= NULL</code>은 UNKNOWN. <code>IS NULL</code> 사용. <code>COUNT(*)</code>는 행, <code>COUNT(열)</code>은 비NULL 값. <code>GROUP BY</code>에서는 NULL도 한 그룹</td>
   <td>Ⅰ-46, 49 / Ⅱ-9, 10, 27, 50, 107 <a href="cbt.html?question=46">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="8" aria-label="복습 완료"></td>
   <td>함수 결과</td>
   <td><code>NULLIF(a,b)</code>는 같으면 NULL, 다르면 a. <code>COALESCE</code>는 첫 비NULL. CASE에 ELSE가 없고 조건이 모두 불일치하면 NULL</td>
   <td>Ⅱ-17, 18, 20, 31 <a href="cbt.html?question=67">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="9" aria-label="복습 완료"></td>
   <td>패턴·날짜·정렬</td>
   <td>LIKE의 <code>%</code>는 0자 이상, <code>_</code>는 한 글자. 날짜+숫자는 Oracle DATE에서 일 단위. 날짜 구간은 시작 이상·다음 구간 시작 미만으로 계산</td>
   <td>Ⅱ-13, 16, 21~24, 30 <a href="cbt.html?question=63">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="10" aria-label="복습 완료"></td>
   <td>조인 행 수</td>
   <td>같은 키가 왼쪽 m건, 오른쪽 n건이면 매칭 결과는 m×n건. CROSS JOIN은 전체 행 수의 곱</td>
   <td>Ⅱ-33, 34, 43, 65 <a href="cbt.html?question=83">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="11" aria-label="복습 완료"></td>
   <td>외부 조인 필터</td>
   <td>LEFT JOIN의 ON은 매칭 조건. WHERE의 오른쪽 열 조건이 NULL 확장행을 거르면 보존 행도 사라진다</td>
   <td>Ⅱ-44~49 <a href="cbt.html?question=94">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr></tbody></table></div><h2 id="topic-3">3. SQL 활용과 결과 예측</h2><article class="concept-card" data-search><h3>서브쿼리, 집합 연산과 소계</h3><ul><li>단일행 서브쿼리에 0행이 나오면 스칼라 값은 NULL, 2행 이상이면 오류가 납니다. 여러 행과 비교하려면 IN, ANY, ALL 등을 검토합니다.</li><li><code>NOT IN</code>에 NULL이 섞이면 비교가 UNKNOWN이 될 수 있습니다. 매칭 행의 부재는 상관 조건을 건 <code>NOT EXISTS</code>로 검사할 수 있습니다.</li><li>UNION은 중복 제거, UNION ALL은 유지, INTERSECT는 교집합, Oracle의 MINUS는 왼쪽 차집합입니다.</li><li>ROLLUP(a,b)는 (a,b), (a), ()를 만들고 CUBE는 (b)도 포함합니다. GROUPING SETS는 원하는 집계 조합을 지정합니다. GROUPING으로 소계가 만든 NULL을 구분합니다.</li></ul></article><article class="concept-card" data-search><h3>윈도우 프레임과 그룹별 Top N</h3><p>GROUP BY는 그룹별로 행을 합칩니다. 윈도우 함수는 각 결과 행에 순위나 합계를 붙입니다. 점수 90·90·80의 RANK는 1·1·3, DENSE_RANK는 1·1·2입니다.</p><pre><code>WITH scores AS (
+  SELECT 1 AS id, 90 AS score FROM dual UNION ALL
+  SELECT 2, 90 FROM dual UNION ALL SELECT 3, 80 FROM dual
+)
+SELECT id, score, RANK() OVER (ORDER BY score DESC) AS rnk,
+       SUM(score) OVER (ORDER BY score DESC, id
+         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS total
+FROM scores
+ORDER BY score DESC, id;
+-- 순위 1, 1, 3 / 누적합 90, 180, 260</code></pre><p>ROWS는 행 위치, RANGE는 정렬값 기준입니다. LAST_VALUE는 현재 프레임의 끝을 읽습니다. 전체 파티션의 끝이 필요하면 프레임 끝을 UNBOUNDED FOLLOWING으로 지정합니다.</p><p>그룹별 Top N은 안쪽 쿼리에서 ROW_NUMBER나 DENSE_RANK를 계산하고 바깥 WHERE에서 필터링합니다. 전체 Top N은 <code>ORDER BY score DESC FETCH FIRST 3 ROWS ONLY</code>로 구할 수 있습니다. ROWNUM 방식은 안쪽 쿼리에서 먼저 정렬하고 바깥에서 <code>ROWNUM &lt;= 3</code>을 적용하세요. 같은 블록에서 먼저 ROWNUM으로 자르면 정렬 후의 상위 3행과 달라질 수 있습니다. <a href="cbt.html?question=196">RANGE 연습</a></p></article><article class="concept-card" data-search><h3>Oracle 계층형 질의, PIVOT, 정규식</h3><pre><code>WITH org AS (
+  SELECT 1 AS id, CAST(NULL AS NUMBER) AS parent_id FROM dual
+  UNION ALL SELECT 2, 1 FROM dual
+)
+SELECT id, LEVEL AS depth
+FROM org
+START WITH parent_id IS NULL
+CONNECT BY PRIOR id = parent_id;
+-- (1, 1), (2, 2)</code></pre><p>PRIOR가 붙은 식은 부모 행에서 평가합니다. START WITH는 루트를 정하고 ORDER SIBLINGS BY는 형제끼리 정렬합니다.</p><p>PIVOT은 범주를 열로 펼치며 집계합니다. UNPIVOT은 여러 열을 행으로 바꿉니다. <code>REGEXP_LIKE(code, '^[0-9]+$')</code>는 한 글자 이상의 숫자로만 이뤄진 값을 찾습니다.</p></article><div class="table-wrap"><table><thead><tr><th>체크</th><th>판단할 것</th><th>핵심 규칙</th><th>CBT 복습</th></tr></thead><tbody><tr>
+  <td class="check"><input type="checkbox" data-key="12" aria-label="복습 완료"></td>
   <td>서브쿼리와 NULL</td>
   <td>단일 행 비교 <code>=</code>의 서브쿼리는 최대 1행. 여러 행은 IN·ANY·ALL 등을 검토. <code>NOT IN</code> 목록에 NULL이 있으면 불일치도 UNKNOWN이 될 수 있다</td>
   <td>Ⅱ-38, 51, 67, 68, 72~74, 79 <a href="cbt.html?question=88">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="13" aria-label="복습 완료"></td>
   <td>집합과 중복</td>
   <td>UNION은 중복 제거, UNION ALL은 유지. INTERSECT는 공통 행, EXCEPT·MINUS는 왼쪽 차집합. 집합 비교 단위는 출력 행 전체</td>
   <td>Ⅱ-53~56, 59, 96 <a href="cbt.html?question=103">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="14" aria-label="복습 완료"></td>
   <td>소계 조합</td>
   <td><code>ROLLUP(A,B)</code>는 (A,B), (A), (). <code>CUBE(A,B)</code>는 (B)도 포함. GROUPING SETS는 지정 조합만 집계. GROUPING으로 집계용 NULL 구별</td>
   <td>Ⅱ-52, 78, 80~83, 95 <a href="cbt.html?question=102">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="15" aria-label="복습 완료"></td>
   <td>윈도우 순위·누적</td>
   <td>값 100, 100, 90이면 RANK 1·1·3, DENSE_RANK 1·1·2, ROW_NUMBER 1·2·3. 동점의 행 순서가 중요하면 정렬 키 추가. LAG는 이전 행, LEAD는 다음 행</td>
   <td>Ⅱ-66, 77, 84~90, 97, 98 <a href="cbt.html?question=116">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="16" aria-label="복습 완료"></td>
   <td>계층형 질의</td>
   <td>START WITH가 루트 선택, LEVEL은 1부터. <code>CONNECT BY PRIOR id = parent_id</code>는 부모에서 자식 방향</td>
   <td>Ⅱ-61~64 <a href="cbt.html?question=111">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="17" aria-label="복습 완료"></td>
   <td>Top N</td>
   <td>SQL Server의 <code>TOP (N) WITH TIES</code>는 ORDER BY 기준으로 N번째와 동점인 행까지 포함. 그룹별 Top N은 순위를 만든 뒤 바깥 쿼리에서 필터</td>
   <td>Ⅱ-85~89, 125 <a href="cbt.html?question=135">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="18" aria-label="복습 완료"></td>
   <td>PIVOT·정규식</td>
   <td>PIVOT은 행 범주를 열로 펼치고 집계, UNPIVOT은 열을 행으로 펼침. 정규식 <code>^</code>·<code>$</code>는 시작·끝, <code>+</code>는 1회 이상, <code>*</code>는 0회 이상</td>
   <td>보완 문제 9, 10</td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr></tbody></table></div><h2 id="topic-4">4. 관리 구문과 트랜잭션</h2><article class="concept-card" data-search><h3>DDL, DML, DCL과 제약조건</h3><p>CREATE·ALTER·DROP·TRUNCATE는 구조를 다루는 DDL입니다. INSERT·UPDATE·DELETE·MERGE는 데이터 변경, GRANT·REVOKE는 권한 관리에 씁니다. PK는 유일성과 비NULL을, FK는 참조 무결성을 보장합니다. FK의 NULL 허용 여부는 별도 NOT NULL 조건을 확인합니다.</p><pre><code>CREATE TABLE study_note (
+  id NUMBER(6) PRIMARY KEY,
+  title VARCHAR2(80 CHAR) NOT NULL,
+  created_at DATE DEFAULT SYSDATE
+);
+
+INSERT INTO study_note (id, title) VALUES (1, 'JOIN');
+UPDATE study_note SET title = 'LEFT JOIN' WHERE id = 1;
+COMMIT;</code></pre><p>실습 스키마에 테이블을 만든 뒤 실행하는 예제입니다. UPDATE나 DELETE의 WHERE를 생략하면 전체 행이 대상입니다.</p></article><article class="concept-card" data-search><h3>Oracle 저장점과 SQL Server 중첩 비교</h3><pre><code>-- 위 study_note 예제를 실행한 상태에서 실행
+UPDATE study_note SET title = '집계' WHERE id = 1;
+SAVEPOINT before_window;
+UPDATE study_note SET title = '윈도우' WHERE id = 1;
+ROLLBACK TO before_window;
+COMMIT;
+-- 확정된 제목: 집계</code></pre><p>Oracle에서 유효한 DDL 실행 전에는 암묵적 커밋이 발생하고, 성공한 DDL 뒤에도 커밋이 발생합니다. 이전 DML의 롤백 가능 여부를 판단할 때 DDL의 위치를 확인하세요.</p><p>SQL Server에서는 중첩 BEGIN이 @@TRANCOUNT를 늘리고 안쪽 COMMIT은 횟수만 줄입니다. 저장점 없는 ROLLBACK은 열린 범위 전체를 취소합니다. <a href="cbt.html?question=173">교재 Ⅱ-123번</a> · <a href="cbt.html?question=198">저장점 연습</a></p><p>ACID는 전부 성공하거나 취소하는 원자성, 제약을 만족하는 일관성, 동시 실행의 간섭을 제어하는 고립성, 확정 결과를 보존하는 지속성입니다.</p></article><div class="table-wrap"><table><thead><tr><th>체크</th><th>판단할 것</th><th>핵심 규칙</th><th>CBT 복습</th></tr></thead><tbody><tr>
+  <td class="check"><input type="checkbox" data-key="19" aria-label="복습 완료"></td>
   <td>DML·DDL·DCL</td>
   <td>INSERT·UPDATE·DELETE는 데이터, CREATE·ALTER·DROP은 구조, GRANT·REVOKE는 권한. UPDATE·DELETE의 WHERE는 대상 범위를 결정</td>
   <td>Ⅱ-1~6, 91~94, 99, 110, 126 <a href="cbt.html?question=51">첫 문항 풀기 →</a></td>
-</tr>
-<tr>
-  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+</tr><tr>
+  <td class="check"><input type="checkbox" data-key="20" aria-label="복습 완료"></td>
   <td>제약조건</td>
   <td>PK는 유일·비NULL. FK는 참조 무결성 유지, FK 자체의 NULL 허용 여부는 별도 제약에 따름. ON DELETE CASCADE는 참조 자식 행도 삭제</td>
   <td>Ⅱ-99, 107~109, 113~118 <a href="cbt.html?question=149">첫 문항 풀기 →</a></td>
-</tr>
-</tbody>
-</table></div>
-<h3 id="topic-3">결과표를 손으로 그리는 세 가지 유형</h3>
-<p><strong>NULL과 집계</strong> · 값이 <code>10, NULL, 20</code>이면 <code>COUNT(*)=3</code>, <code>COUNT(x)=2</code>, <code>SUM(x)=30</code>, <code>AVG(x)=15</code>. <code>AVG(COALESCE(x,0))</code>는 10이다. 입력 행이 0건인 전체 집계에서 COUNT는 0, SUM은 NULL이다.</p>
-<p><strong>LEFT JOIN</strong> · 고객 A는 구매 2건, B는 0건. 고객별 LEFT JOIN 뒤 <code>COUNT(*)</code>는 A 2, B 1이고, <code>COUNT(구매.PK)</code>는 A 2, B 0이다. B의 NULL 확장행을 그려 두면 구분이 쉽다.</p>
-<p><strong>윈도우와 GROUP BY</strong> · 매출 세 행을 <code>GROUP BY 부서</code>로 집계하면 부서당 한 행. <code>SUM(매출) OVER(PARTITION BY 부서)</code>는 세 행을 유지하고 각 행에 부서 합계를 표시한다. 누적합을 행 단위로 계산하려면 <code>ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</code>와 안정적인 정렬 기준을 확인한다.</p>
-<h3 id="topic-4">트랜잭션 · Ⅱ-26, 101~103, 119~124</h3>
-<div class="table-wrap"><table>
-<thead>
-<tr>
-  <th>문제의 단서</th>
-  <th>판단</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-  <td>원자성·일관성·고립성·지속성</td>
-  <td>전부 성공 또는 취소 / 제약과 정합성 유지 / 동시 실행의 간섭 제어 / 확정 결과 보존</td>
-</tr>
-<tr>
-  <td>SQL Server, 같은 세션의 중첩 BEGIN</td>
-  <td><code>@@TRANCOUNT</code>가 1 → 2. 안쪽 COMMIT은 2 → 1, 바깥 COMMIT으로 0이 될 때 확정</td>
-</tr>
-<tr>
-  <td>저장점 없는 ROLLBACK</td>
-  <td>SQL Server에서 열린 트랜잭션 전체를 취소하고 중첩 횟수를 0으로 초기화</td>
-</tr>
-<tr>
-  <td>저장점 지정</td>
-  <td>Oracle <code>SAVEPOINT s</code> → <code>ROLLBACK TO s</code>. SQL Server <code>SAVE TRANSACTION s</code> → <code>ROLLBACK TRANSACTION s</code>. 저장점 뒤 변경만 취소</td>
-</tr>
-<tr>
-  <td>DDL이 사이에 등장</td>
-  <td>Oracle은 유효한 DDL 실행 전에 암묵적 커밋, 성공하면 실행 후에도 커밋. SQL Server에서는 일반적인 테이블 DDL을 명시적 트랜잭션에서 롤백할 수 있는 경우가 있으므로 DBMS를 확인</td>
-</tr>
-</tbody>
-</table></div>
-<p><strong>Ⅱ-123의 작업 범위</strong></p>
-<pre><code class="language-text">확정 범위    INSERT 005 → COMMIT                005 유지
-취소 범위    BEGIN → DELETE 002 → BEGIN → UPDATE → ROLLBACK
-횟수           1                   2                    0
-결과         단가 2000인 품목은 002·004·005 → 3건
-</code></pre>
-<p>②를 골랐다면 두 번째 BEGIN을 저장점처럼 읽었는지 확인한다. DELETE를 유지하고 UPDATE만 되돌리려면 DELETE 뒤에 저장점을 만든 후 그 저장점을 지정해 롤백해야 한다.</p>
-<section class="review-guide" aria-labelledby="pdf-review">
-<h2 id="pdf-review">요약정리에서 보강한 판별 규칙</h2>
-<p>2021년 요약정리의 개념을 현재 치트시트에 연결했습니다. 자료의 과목 구성은 작성 당시 기준입니다.</p>
-<div class="table-wrap"><table>
-<thead><tr><th scope="col">헷갈리는 개념</th><th scope="col">문제에서 확인할 단서</th><th scope="col">연습</th></tr></thead>
-<tbody>
-<tr><td>스키마와 데이터 독립성</td><td>개념 스키마 변경을 외부 스키마에서 흡수하면 논리적 독립성. 저장 구조 변경을 개념 스키마에서 흡수하면 물리적 독립성.</td><td><a href="cbt.html?question=179">3번</a></td></tr>
-<tr><td>관계와 참여</td><td>관계명은 어떤 연관인지, 관계차수는 최대 연결 수, 선택성은 최소 연결 수를 표현한다. 양쪽 방향을 각각 읽는다.</td><td><a href="cbt.html?question=180">4번</a></td></tr>
-<tr><td>정규화와 반정규화</td><td>키의 일부에 종속되면 2NF, 비키 속성을 거쳐 종속되면 3NF를 점검한다. 조회 비용을 줄이려고 데이터를 중복 저장할 때는 갱신 시 정합성 유지 방법이 필요하다.</td><td><a href="cbt.html?question=181">5번</a> · <a href="cbt.html?question=182">6번</a></td></tr>
-<tr><td>윈도우 프레임</td><td>ROWS는 정렬된 행의 위치로 범위를 정한다. RANGE는 정렬값을 기준으로 범위를 정하므로 동점이 함께 포함될 수 있다. LAST_VALUE는 현재 프레임의 끝값을 반환한다.</td><td><a href="cbt.html?question=191">15번</a> · <a href="cbt.html?question=196">20번</a></td></tr>
-<tr><td>트랜잭션 제어</td><td>COMMIT 지점과 저장점을 먼저 표시하고, ROLLBACK에 저장점 이름이 있는지 확인한다. SQL Server의 안쪽 COMMIT은 중첩 횟수를 1 줄인다.</td><td><a href="cbt.html?question=197">21번</a> · <a href="cbt.html?question=198">22번</a></td></tr>
-</tbody></table></div>
-</section><h2 id="topic-5">기출 대비 자가진단 10문제</h2>
+</tr></tbody></table></div><h2 id="topic-5">기출 대비 자가진단 10문제</h2>
 <ol>
 <li>주문상세의 PK가 (주문번호, 상품번호)이고 상품번호만 알면 상품명을 알 수 있다. 어떤 정규형을 위반하는가?</li>
 <li><code>x</code>가 3, NULL, 6일 때 <code>COUNT(x)</code>, <code>SUM(x)</code>, <code>AVG(x)</code>는?</li>
@@ -248,20 +194,26 @@
 <li><strong>123만 일치</strong>. 시작부터 끝까지 숫자가 한 자 이상 있어야 한다.</li>
 </ol>
 </details><p>오답은 <strong>문항 번호 / 처음에 적용한 규칙 / 다시 적용할 규칙</strong> 세 칸으로 남긴다. 예시로 <code>Ⅱ-123 / 안쪽 BEGIN만 취소 / 저장점 없는 ROLLBACK은 DELETE까지 취소</code>처럼 적는다.</p>
-<p>참고 자료 · <a href="https://www.dataq.or.kr/www/sub/a_04.do">한국데이터산업진흥원 SQLD 안내</a> · <a href="https://learn.microsoft.com/en-us/sql/t-sql/language-elements/begin-transaction-transact-sql">Microsoft SQL Server 중첩 트랜잭션</a> · <a href="https://learn.microsoft.com/en-us/sql/t-sql/functions/trancount-transact-sql">Microsoft SQL Server @@TRANCOUNT</a></p>
+
 </main></div>
-<script>
+<h2 id="sources">참고 자료</h2><p>첨부 SQLD 요약정리 2021의 개념을 바탕으로 재구성하고, Oracle SQL 동작은 공식 문서와 대조했습니다.</p><ul>
+<li><a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/Literals.html">Oracle 19c · 리터럴과 날짜</a></li>
+<li><a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/Nulls.html">Oracle 19c · NULL</a></li>
+<li><a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/SELECT.html">Oracle 19c · SELECT</a></li>
+<li><a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/Analytic-Functions.html">Oracle 19c · 분석 함수</a></li>
+<li><a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/COMMIT.html">Oracle 19c · COMMIT</a></li>
+<li><a href="https://learn.microsoft.com/en-us/sql/t-sql/functions/trancount-transact-sql">SQL Server · @@TRANCOUNT</a></li></ul></main></div><script>
 const boxes = [...document.querySelectorAll('input[type="checkbox"]')];
 const storageKey = 'sqld-study-sheet-progress-v1';
 try {
   const done = JSON.parse(localStorage.getItem(storageKey) || '[]');
-  if (Array.isArray(done)) boxes.forEach((box, i) => { box.checked = done.includes(i); });
+  if (Array.isArray(done)) boxes.forEach((box) => { box.checked = done.includes(Number(box.dataset.key)); });
 } catch {}
 function displayProgress() {
   document.getElementById('progress').textContent = '복습 완료 ' + boxes.filter(box => box.checked).length + ' / ' + boxes.length;
 }
 boxes.forEach(box => box.addEventListener('change', () => {
-  try { localStorage.setItem(storageKey, JSON.stringify(boxes.flatMap((item, i) => item.checked ? [i] : []))); } catch {}
+  try { localStorage.setItem(storageKey, JSON.stringify(boxes.flatMap((item) => item.checked ? [Number(item.dataset.key)] : []))); } catch {}
   displayProgress();
 }));
 displayProgress();

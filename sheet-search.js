@@ -1,6 +1,6 @@
 const search = document.getElementById('concept-search');
 const searchResult = document.getElementById('search-result');
-const conceptRows = [...document.querySelectorAll('tr')].filter(row => row.querySelector('input[type="checkbox"]'));
+const conceptRows = [...document.querySelectorAll('tr:has(input[type=checkbox]), [data-search]')];
 
 search.addEventListener('input', () => {
   const terms = search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
