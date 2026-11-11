@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SQLPass · 학습 대시보드</title>
+  <link rel="stylesheet" href="platform.css">
+</head>
+<body class="dashboard">
+  <header class="platform-header">
+    <a class="wordmark" href="index.html">SQLPass <span>CBT</span></a>
+    <nav aria-label="주 메뉴">
+      <a href="index.html" aria-current="page">학습 대시보드</a>
+      <a href="cheatsheet.html">핵심 치트시트</a>
+      <a href="cbt.html">실전 CBT</a>
+    </nav>
+    <a class="action header-action" href="cbt.html">문제 풀기 →</a>
+  </header>
+  <main class="dashboard-main">
+    <section class="banner">
+      <div><p class="subject-label">SQL 개발자 자격시험</p><h1>SQLD 학습 대시보드</h1><p>핵심 개념을 확인하고, 연결된 교재 문항으로 복습하세요.</p></div>
+      <a class="action" href="cbt.html" id="start">CBT 시작 →</a>
+    </section>
+    <section class="metrics" aria-label="학습 현황">
+      <article><span>문제 은행</span><strong>176<small> 문항</small></strong><p>과목 I 50 · 과목 II 126</p></article>
+      <article><span>개념 복습</span><strong id="study-progress">0<small> / 21</small></strong><p>치트시트에서 완료한 항목</p></article>
+      <article><span>최근 채점 결과</span><strong id="latest-score">—</strong><p id="latest-info">아직 제출한 기록이 없습니다.</p></article>
+    </section>
+    <section class="study-grid" aria-label="학습 도구">
+      <article class="study-card">
+        <div class="section-icon" aria-hidden="true">▤</div>
+        <h2>핵심 치트시트</h2>
+        <p>정규화부터 NULL, 조인, 윈도우 함수까지. 핵심 규칙을 확인하고 CBT 문항 번호로 찾아 복습하세요.</p>
+        <div class="chips"><span>복습 체크</span><span>자가진단 10문제</span></div>
+        <a class="secondary-action" href="cheatsheet.html">치트시트 열기 →</a>
+      </article>
+      <article class="study-card">
+        <div class="section-icon" aria-hidden="true">▦</div>
+        <h2>실전 CBT</h2>
+        <p>즉시채점으로 원본 해설을 확인하거나, 시험 모드에서 제한시간을 두고 한 번에 채점하세요.</p>
+        <div class="chips"><span>즉시채점</span><span>시험 모드</span><span>오답 다시풀기</span></div>
+        <a class="secondary-action" href="cbt.html">CBT 열기 →</a>
+      </article>
+    </section>
+    <section class="review-link"><div><strong>트랜잭션과 중첩 BEGIN</strong><p>교재 Ⅱ-123번의 ROLLBACK 범위를 복습하세요.</p></div><a href="cheatsheet.html#topic-4">개념 보기 →</a></section>
+  </main>
+  <footer class="platform-footer">SQLPass · SQLD 개인 학습용</footer>
+  <script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQLD 핵심 공부시트</title>
+<style>
+:root{color-scheme:light;--ink:#172b28;--muted:#50645f;--accent:#146b55;--border:#d6e4df;--bg:#f4f8f6}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 'Malgun Gothic',system-ui,sans-serif}a{color:var(--accent);text-underline-offset:3px}.layout{max-width:1250px;margin:auto;padding:28px 24px;display:grid;grid-template-columns:205px minmax(0,1fr);gap:24px}aside{position:sticky;top:22px;align-self:start}nav{display:grid;gap:6px}nav a{display:block;padding:7px 10px;text-decoration:none;border-radius:7px;font-size:14px}nav a:hover{background:#dceee7}nav .level-3{padding-left:20px;font-size:13px}aside strong{display:block;padding:8px 10px}output{display:block;color:var(--muted);padding:12px 10px;font-size:13px}main{min-width:0;background:white;border:1px solid var(--border);border-radius:16px;padding:clamp(18px,4vw,48px)}h1{margin-top:0;font-size:clamp(27px,4vw,42px);letter-spacing:-.05em}h2{margin-top:45px;padding-top:15px;border-top:2px solid var(--border)}h3{margin-top:34px}h2,h3{scroll-margin-top:18px}p{margin:12px 0}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}th{background:#e5f2ed;color:#245647}tbody tr:nth-child(even){background:#f6faf8}tr:has(input:checked){background:#e5f2ed}.check{text-align:center}input{accent-color:var(--accent);width:18px;height:18px}code{font: .93em Consolas,monospace;background:#eaf4ef;border-radius:4px;padding:2px 4px}pre{padding:16px;background:#edf5f1;border-radius:9px;overflow:auto}pre code{background:none;padding:0}li{margin-bottom:8px}details{background:#edf5f1;border-radius:10px;padding:12px 16px}summary{cursor:pointer;color:var(--accent);font-weight:bold}:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(max-width:760px){.layout{display:block;padding:12px}aside{position:static;margin-bottom:12px}nav{display:flex;flex-wrap:wrap}nav a,nav .level-3{padding:4px 8px}table:has(.check) thead{display:none}table:has(.check),table:has(.check) tbody{display:block}table:has(.check) tr{display:grid;grid-template-columns:30px 1fr;gap:2px 8px;padding:10px 6px;border-bottom:1px solid var(--border)}table:has(.check) td{border:0;padding:0}table:has(.check) td:nth-child(2){font-weight:bold}table:has(.check) td:nth-child(n+3){grid-column:2}table:has(.check) td:nth-child(4){color:var(--accent);font-size:13px}table:has(.check) td:nth-child(4)::before{content:'CBT 복습 · '}}
+@media print{aside{display:none}.layout{display:block;padding:0}main{border:0;padding:0}tr{break-inside:avoid}}
+</style>
+<link rel="stylesheet" href="platform.css"><body class="sheet-page"><header class="platform-header"><a class="wordmark" href="index.html">SQLPass <span>CBT</span></a><nav aria-label="주 메뉴"><a href="index.html">학습 대시보드</a><a href="cheatsheet.html" aria-current="page">핵심 치트시트</a><a href="cbt.html">실전 CBT</a></nav><a href="cbt.html" class="action header-action">문제 풀기 →</a></header><div class="layout"><aside><strong>목차</strong><nav aria-label="공부시트 목차"><a class="level-2" href="#topic-1">Ⅰ. 데이터 모델링의 이해</a><a class="level-2" href="#topic-2">Ⅱ. SQL 기본 및 활용</a><a class="level-3" href="#topic-3">결과표를 손으로 그리는 세 가지 유형</a><a class="level-3" href="#topic-4">트랜잭션 · Ⅱ-26, 101~103, 119~124</a><a class="level-2" href="#topic-5">기출 대비 자가진단 10문제</a></nav><output id="progress" aria-live="polite"></output></aside><main><h1>SQLD 핵심 공부시트</h1><input class="sheet-search" id="concept-search" type="search" aria-label="개념 검색" placeholder="개념 검색 · 예: NULL, 조인, ROLLBACK"><p id="search-result" hidden aria-live="polite"></p>
+<p>첨부 문제집 176문항과 정답·해설을 바탕으로, CBT에서 다시 풀 문제를 개념별로 연결했다. <strong>Ⅰ·Ⅱ는 과목, 뒤 숫자는 교재 문항 번호</strong>다. 기출 대비 유형은 공개 출제 영역을 바탕으로 만든 연습이며, 실제 회차의 원문과 출제 빈도는 확인 범위에 포함되지 않는다.</p>
+<p><strong>첫 회독</strong>은 NULL → 외부 조인 → 집계·윈도우 → 트랜잭션 → 정규화 순서로 진행한다. 정답 번호를 보기 전에 각 문제에서 <strong>남는 행, 값, 취소 범위</strong> 중 무엇을 묻는지 적어 본다.</p>
+<h2 id="topic-1">Ⅰ. 데이터 모델링의 이해</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+  <th>체크</th>
+  <th>문제에서 판단할 것</th>
+  <th>핵심 규칙</th>
+  <th>CBT 복습</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>외부·개념·내부 스키마</td>
+  <td>사용자별 관점 → 외부, 조직 전체 논리 구조 → 개념, 물리 저장 구조 → 내부</td>
+  <td>Ⅰ-5, 6, 22 <a href="cbt.html?question=5">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>엔터티·속성·도메인</td>
+  <td>고객은 엔터티, 고객명은 속성, 고객명이 가질 수 있는 값의 범위는 도메인. 합계처럼 다른 값에서 계산하면 파생 속성</td>
+  <td>Ⅰ-9~12, 15, 17, 18, 33 <a href="cbt.html?question=9">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>관계의 기수성과 선택성</td>
+  <td>1:N은 최대 연결 수, 필수·선택은 최소 연결 수. 고객에게 주문이 없어도 되는지와 주문이 고객 없이 가능한지를 각각 판단</td>
+  <td>Ⅰ-7, 21, 23 <a href="cbt.html?question=7">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>식별자와 식별관계</td>
+  <td>주식별자 조건은 유일성·최소성·불변성·존재성. 부모 PK가 자식 PK에 포함되면 식별관계, 자식의 비PK FK가 되면 비식별관계</td>
+  <td>Ⅰ-26~31, 42, 50 <a href="cbt.html?question=26">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>1NF·2NF·3NF 위반</td>
+  <td>반복값·비원자값 → 1NF. 복합키 일부에 종속 → 2NF. 키가 아닌 속성을 거쳐 종속 → 3NF</td>
+  <td>Ⅰ-34~45, 47 <a href="cbt.html?question=34">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>모델에 나타난 트랜잭션</td>
+  <td>주문과 주문상세를 한 작업으로 처리해야 하면 둘 다 성공한 뒤 커밋</td>
+  <td>Ⅰ-48 <a href="cbt.html?question=48">첫 문항 풀기 →</a></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>종속성 직접 긋기</strong></p>
+<pre><code class="language-text">주문상세 PK = (주문번호, 상품번호)
+(주문번호, 상품번호) → 주문수량
+          상품번호   → 상품명      ⇒ 부분 종속, 2NF
+
+학생번호 → 학과번호 → 학과명       ⇒ 이행 종속, 3NF
+</code></pre>
+<h2 id="topic-2">Ⅱ. SQL 기본 및 활용</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+  <th>체크</th>
+  <th>문제에서 판단할 것</th>
+  <th>핵심 규칙</th>
+  <th>CBT 복습</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>SELECT의 논리 처리 순서</td>
+  <td>FROM·JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY. WHERE는 행, HAVING은 그룹을 걸러낸다</td>
+  <td>Ⅱ-7, 8, 14, 19, 28, 32 <a href="cbt.html?question=57">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>NULL 비교와 집계</td>
+  <td><code>= NULL</code>은 UNKNOWN. <code>IS NULL</code> 사용. <code>COUNT(*)</code>는 행, <code>COUNT(열)</code>은 비NULL 값. <code>GROUP BY</code>에서는 NULL도 한 그룹</td>
+  <td>Ⅰ-46, 49 / Ⅱ-9, 10, 27, 50, 107 <a href="cbt.html?question=46">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>함수 결과</td>
+  <td><code>NULLIF(a,b)</code>는 같으면 NULL, 다르면 a. <code>COALESCE</code>는 첫 비NULL. CASE에 ELSE가 없고 조건이 모두 불일치하면 NULL</td>
+  <td>Ⅱ-17, 18, 20, 31 <a href="cbt.html?question=67">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>패턴·날짜·정렬</td>
+  <td>LIKE의 <code>%</code>는 0자 이상, <code>_</code>는 한 글자. 날짜+숫자는 Oracle DATE에서 일 단위. 날짜 구간은 시작 이상·다음 구간 시작 미만으로 계산</td>
+  <td>Ⅱ-13, 16, 21~24, 30 <a href="cbt.html?question=63">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>조인 행 수</td>
+  <td>같은 키가 왼쪽 m건, 오른쪽 n건이면 매칭 결과는 m×n건. CROSS JOIN은 전체 행 수의 곱</td>
+  <td>Ⅱ-33, 34, 43, 65 <a href="cbt.html?question=83">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>외부 조인 필터</td>
+  <td>LEFT JOIN의 ON은 매칭 조건. WHERE의 오른쪽 열 조건이 NULL 확장행을 거르면 보존 행도 사라진다</td>
+  <td>Ⅱ-44~49 <a href="cbt.html?question=94">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>서브쿼리와 NULL</td>
+  <td>단일 행 비교 <code>=</code>의 서브쿼리는 최대 1행. 여러 행은 IN·ANY·ALL 등을 검토. <code>NOT IN</code> 목록에 NULL이 있으면 불일치도 UNKNOWN이 될 수 있다</td>
+  <td>Ⅱ-38, 51, 67, 68, 72~74, 79 <a href="cbt.html?question=88">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>집합과 중복</td>
+  <td>UNION은 중복 제거, UNION ALL은 유지. INTERSECT는 공통 행, EXCEPT·MINUS는 왼쪽 차집합. 집합 비교 단위는 출력 행 전체</td>
+  <td>Ⅱ-53~56, 59, 96 <a href="cbt.html?question=103">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>소계 조합</td>
+  <td><code>ROLLUP(A,B)</code>는 (A,B), (A), (). <code>CUBE(A,B)</code>는 (B)도 포함. GROUPING SETS는 지정 조합만 집계. GROUPING으로 집계용 NULL 구별</td>
+  <td>Ⅱ-52, 78, 80~83, 95 <a href="cbt.html?question=102">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>윈도우 순위·누적</td>
+  <td>값 100, 100, 90이면 RANK 1·1·3, DENSE_RANK 1·1·2, ROW_NUMBER 1·2·3. 동점의 행 순서가 중요하면 정렬 키 추가. LAG는 이전 행, LEAD는 다음 행</td>
+  <td>Ⅱ-66, 77, 84~90, 97, 98 <a href="cbt.html?question=116">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>계층형 질의</td>
+  <td>START WITH가 루트 선택, LEVEL은 1부터. <code>CONNECT BY PRIOR id = parent_id</code>는 부모에서 자식 방향</td>
+  <td>Ⅱ-61~64 <a href="cbt.html?question=111">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>Top N</td>
+  <td>SQL Server의 <code>TOP (N) WITH TIES</code>는 ORDER BY 기준으로 N번째와 동점인 행까지 포함. 그룹별 Top N은 순위를 만든 뒤 바깥 쿼리에서 필터</td>
+  <td>Ⅱ-85~89, 125 <a href="cbt.html?question=135">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>PIVOT·정규식</td>
+  <td>PIVOT은 행 범주를 열로 펼치고 집계, UNPIVOT은 열을 행으로 펼침. 정규식 <code>^</code>·<code>$</code>는 시작·끝, <code>+</code>는 1회 이상, <code>*</code>는 0회 이상</td>
+  <td>보완 문제 9, 10</td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>DML·DDL·DCL</td>
+  <td>INSERT·UPDATE·DELETE는 데이터, CREATE·ALTER·DROP은 구조, GRANT·REVOKE는 권한. UPDATE·DELETE의 WHERE는 대상 범위를 결정</td>
+  <td>Ⅱ-1~6, 91~94, 99, 110, 126 <a href="cbt.html?question=51">첫 문항 풀기 →</a></td>
+</tr>
+<tr>
+  <td class="check"><input type="checkbox" aria-label="복습 완료"></td>
+  <td>제약조건</td>
+  <td>PK는 유일·비NULL. FK는 참조 무결성 유지, FK 자체의 NULL 허용 여부는 별도 제약에 따름. ON DELETE CASCADE는 참조 자식 행도 삭제</td>
+  <td>Ⅱ-99, 107~109, 113~118 <a href="cbt.html?question=149">첫 문항 풀기 →</a></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="topic-3">결과표를 손으로 그리는 세 가지 유형</h3>
+<p><strong>NULL과 집계</strong> · 값이 <code>10, NULL, 20</code>이면 <code>COUNT(*)=3</code>, <code>COUNT(x)=2</code>, <code>SUM(x)=30</code>, <code>AVG(x)=15</code>. <code>AVG(COALESCE(x,0))</code>는 10이다. 입력 행이 0건인 전체 집계에서 COUNT는 0, SUM은 NULL이다.</p>
+<p><strong>LEFT JOIN</strong> · 고객 A는 구매 2건, B는 0건. 고객별 LEFT JOIN 뒤 <code>COUNT(*)</code>는 A 2, B 1이고, <code>COUNT(구매.PK)</code>는 A 2, B 0이다. B의 NULL 확장행을 그려 두면 구분이 쉽다.</p>
+<p><strong>윈도우와 GROUP BY</strong> · 매출 세 행을 <code>GROUP BY 부서</code>로 집계하면 부서당 한 행. <code>SUM(매출) OVER(PARTITION BY 부서)</code>는 세 행을 유지하고 각 행에 부서 합계를 표시한다. 누적합을 행 단위로 계산하려면 <code>ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW</code>와 안정적인 정렬 기준을 확인한다.</p>
+<h3 id="topic-4">트랜잭션 · Ⅱ-26, 101~103, 119~124</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+  <th>문제의 단서</th>
+  <th>판단</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>원자성·일관성·고립성·지속성</td>
+  <td>전부 성공 또는 취소 / 제약과 정합성 유지 / 동시 실행의 간섭 제어 / 확정 결과 보존</td>
+</tr>
+<tr>
+  <td>SQL Server, 같은 세션의 중첩 BEGIN</td>
+  <td><code>@@TRANCOUNT</code>가 1 → 2. 안쪽 COMMIT은 2 → 1, 바깥 COMMIT으로 0이 될 때 확정</td>
+</tr>
+<tr>
+  <td>저장점 없는 ROLLBACK</td>
+  <td>SQL Server에서 열린 트랜잭션 전체를 취소하고 중첩 횟수를 0으로 초기화</td>
+</tr>
+<tr>
+  <td>저장점 지정</td>
+  <td>Oracle <code>SAVEPOINT s</code> → <code>ROLLBACK TO s</code>. SQL Server <code>SAVE TRANSACTION s</code> → <code>ROLLBACK TRANSACTION s</code>. 저장점 뒤 변경만 취소</td>
+</tr>
+<tr>
+  <td>DDL이 사이에 등장</td>
+  <td>Oracle은 유효한 DDL 실행 전에 암묵적 커밋, 성공하면 실행 후에도 커밋. SQL Server에서는 일반적인 테이블 DDL을 명시적 트랜잭션에서 롤백할 수 있는 경우가 있으므로 DBMS를 확인</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Ⅱ-123의 작업 범위</strong></p>
+<pre><code class="language-text">확정 범위    INSERT 005 → COMMIT                005 유지
+취소 범위    BEGIN → DELETE 002 → BEGIN → UPDATE → ROLLBACK
+횟수           1                   2                    0
+결과         단가 2000인 품목은 002·004·005 → 3건
+</code></pre>
+<p>②를 골랐다면 두 번째 BEGIN을 저장점처럼 읽었는지 확인한다. DELETE를 유지하고 UPDATE만 되돌리려면 DELETE 뒤에 저장점을 만든 후 그 저장점을 지정해 롤백해야 한다.</p>
+<h2 id="topic-5">기출 대비 자가진단 10문제</h2>
+<ol>
+<li>주문상세의 PK가 (주문번호, 상품번호)이고 상품번호만 알면 상품명을 알 수 있다. 어떤 정규형을 위반하는가?</li>
+<li><code>x</code>가 3, NULL, 6일 때 <code>COUNT(x)</code>, <code>SUM(x)</code>, <code>AVG(x)</code>는?</li>
+<li>구매가 없는 고객도 남기되 올해 구매만 연결하려면 구매일 조건을 LEFT JOIN의 ON과 WHERE 중 어디에 둘까?</li>
+<li><code>WHERE x NOT IN (1, NULL)</code>에서 x가 2인 행은 남는가?</li>
+<li><code>ROLLUP(지역, 월)</code>에서 월별 전체 지역 소계가 생기는가?</li>
+<li>점수가 90, 90, 80일 때 80점의 RANK와 DENSE_RANK는?</li>
+<li>A에 (1), (1), (2), B에 (1), (3)이 있을 때 UNION과 UNION ALL의 결과 건수는?</li>
+<li>SQL Server에서 BEGIN → DELETE → BEGIN → UPDATE → COMMIT → ROLLBACK을 실행하면 DELETE는 남는가?</li>
+<li>월별 매출의 월 값 1·2·3을 각각 결과 열로 바꾸려면 어떤 연산을 쓰는가?</li>
+<li>정규식 <code>^[0-9]+$</code>에 <code>123</code>, <code>12A</code>, 빈 문자열 중 무엇이 일치하는가?</li>
+</ol>
+<details><summary>정답과 판단 근거</summary><ol>
+<li><strong>2NF</strong>. 상품명이 복합키의 일부인 상품번호에만 종속된다.</li>
+<li><strong>2, 9, 4.5</strong>. NULL을 분모에 포함하지 않는다.</li>
+<li><strong>ON</strong>. 매칭할 구매만 제한하고 미매칭 고객은 유지한다.</li>
+<li><strong>남지 않는다</strong>. <code>2 &lt;&gt; NULL</code>이 UNKNOWN이므로 전체 조건이 TRUE가 되지 않는다.</li>
+<li><strong>생기지 않는다</strong>. (지역, 월), (지역), ()만 생성한다.</li>
+<li><strong>3, 2</strong>. RANK는 동점 뒤 순위를 건너뛴다.</li>
+<li><strong>3건, 5건</strong>. UNION만 출력 행의 중복을 제거한다.</li>
+<li><strong>남지 않는다</strong>. 안쪽 COMMIT 이후에도 중첩 횟수가 1이므로 마지막 ROLLBACK이 둘 다 취소한다.</li>
+<li><strong>PIVOT</strong>. 월 범주를 열로 바꾸고 매출을 집계한다.</li>
+<li><strong>123만 일치</strong>. 시작부터 끝까지 숫자가 한 자 이상 있어야 한다.</li>
+</ol>
+</details><p>오답은 <strong>문항 번호 / 처음에 적용한 규칙 / 다시 적용할 규칙</strong> 세 칸으로 남긴다. 예시로 <code>Ⅱ-123 / 안쪽 BEGIN만 취소 / 저장점 없는 ROLLBACK은 DELETE까지 취소</code>처럼 적는다.</p>
+<p>참고 자료 · <a href="https://www.dataq.or.kr/www/sub/a_04.do">한국데이터산업진흥원 SQLD 안내</a> · <a href="https://learn.microsoft.com/en-us/sql/t-sql/language-elements/begin-transaction-transact-sql">Microsoft SQL Server 중첩 트랜잭션</a> · <a href="https://learn.microsoft.com/en-us/sql/t-sql/functions/trancount-transact-sql">Microsoft SQL Server @@TRANCOUNT</a></p>
+</main></div>
+<script>
+const boxes = [...document.querySelectorAll('input[type="checkbox"]')];
+const storageKey = 'sqld-study-sheet-progress-v1';
+try {
+  const done = JSON.parse(localStorage.getItem(storageKey) || '[]');
+  if (Array.isArray(done)) boxes.forEach((box, i) => { box.checked = done.includes(i); });
+} catch {}
+function displayProgress() {
+  document.getElementById('progress').textContent = '복습 완료 ' + boxes.filter(box => box.checked).length + ' / ' + boxes.length;
+}
+boxes.forEach(box => box.addEventListener('change', () => {
+  try { localStorage.setItem(storageKey, JSON.stringify(boxes.flatMap((item, i) => item.checked ? [i] : []))); } catch {}
+  displayProgress();
+}));
+displayProgress();
+</script><footer class="platform-footer">SQLPass · SQLD 개인 학습용</footer><script src="sheet-search.js"></script></body></html>
