@@ -6,7 +6,7 @@
 @media(max-width:760px){.layout{display:block;padding:12px}aside{position:static;margin-bottom:12px}nav{display:flex;flex-wrap:wrap}nav a,nav .level-3{padding:4px 8px}table:has(.check) thead{display:none}table:has(.check),table:has(.check) tbody{display:block}table:has(.check) tr{display:grid;grid-template-columns:30px 1fr;gap:2px 8px;padding:10px 6px;border-bottom:1px solid var(--border)}table:has(.check) td{border:0;padding:0}table:has(.check) td:nth-child(2){font-weight:bold}table:has(.check) td:nth-child(n+3){grid-column:2}table:has(.check) td:nth-child(4){color:var(--accent);font-size:13px}table:has(.check) td:nth-child(4)::before{content:'CBT 복습 · '}}
 @media print{aside{display:none}.layout{display:block;padding:0}main{border:0;padding:0}tr{break-inside:avoid}}
 </style>
-<link rel="stylesheet" href="platform.css"><body class="sheet-page"><header class="platform-header"><a class="wordmark" href="index.html">SQLPass <span>CBT</span></a><nav aria-label="주 메뉴"><a href="index.html">학습 대시보드</a><a href="cheatsheet.html" aria-current="page">핵심 치트시트</a><a href="cbt.html">실전 CBT</a></nav><a href="cbt.html" class="action header-action">문제 풀기 →</a></header><div class="layout"><aside><strong>목차</strong><nav aria-label="공부시트 목차"><a class="level-2" href="#topic-1">Ⅰ. 데이터 모델링의 이해</a><a class="level-2" href="#topic-2">Ⅱ. SQL 기본 및 활용</a><a class="level-3" href="#topic-3">결과표를 손으로 그리는 세 가지 유형</a><a class="level-3" href="#topic-4">트랜잭션 · Ⅱ-26, 101~103, 119~124</a><a class="level-2" href="#topic-5">기출 대비 자가진단 10문제</a></nav><output id="progress" aria-live="polite"></output></aside><main><h1>SQLD 핵심 공부시트</h1><input class="sheet-search" id="concept-search" type="search" aria-label="개념 검색" placeholder="개념 검색 · 예: NULL, 조인, ROLLBACK"><p id="search-result" hidden aria-live="polite"></p>
+<link rel="stylesheet" href="platform.css"><body class="sheet-page"><header class="platform-header"><a class="wordmark" href="index.html">SQLPass <span>CBT</span></a><nav aria-label="주 메뉴"><a href="index.html">학습 대시보드</a><a href="cheatsheet.html" aria-current="page">핵심 치트시트</a><a href="cbt.html">실전 CBT</a></nav><a href="cbt.html" class="action header-action">문제 풀기 →</a></header><div class="layout"><aside><strong>목차</strong><nav aria-label="공부시트 목차"><a class="level-2" href="#topic-1">Ⅰ. 데이터 모델링의 이해</a><a class="level-2" href="#topic-2">Ⅱ. SQL 기본 및 활용</a><a class="level-3" href="#topic-3">결과표를 손으로 그리는 세 가지 유형</a><a class="level-3" href="#topic-4">트랜잭션 · Ⅱ-26, 101~103, 119~124</a><a class="level-2" href="#pdf-review">요약정리 보강</a><a class="level-2" href="#topic-5">기출 대비 자가진단 10문제</a></nav><output id="progress" aria-live="polite"></output></aside><main><h1>SQLD 핵심 공부시트</h1><input class="sheet-search" id="concept-search" type="search" aria-label="개념 검색" placeholder="개념 검색 · 예: NULL, 조인, ROLLBACK"><p id="search-result" hidden aria-live="polite"></p>
 <p>첨부 문제집 176문항과 정답·해설을 바탕으로, CBT에서 다시 풀 문제를 개념별로 연결했다. <strong>Ⅰ·Ⅱ는 과목, 뒤 숫자는 교재 문항 번호</strong>다. 기출 대비 유형은 공개 출제 영역을 바탕으로 만든 연습이며, 실제 회차의 원문과 출제 빈도는 확인 범위에 포함되지 않는다.</p>
 <p><strong>첫 회독</strong>은 NULL → 외부 조인 → 집계·윈도우 → 트랜잭션 → 정규화 순서로 진행한다. 정답 번호를 보기 전에 각 문제에서 <strong>남는 행, 값, 취소 범위</strong> 중 무엇을 묻는지 적어 본다.</p>
 <h2 id="topic-1">Ⅰ. 데이터 모델링의 이해</h2>
@@ -210,7 +210,19 @@
 결과         단가 2000인 품목은 002·004·005 → 3건
 </code></pre>
 <p>②를 골랐다면 두 번째 BEGIN을 저장점처럼 읽었는지 확인한다. DELETE를 유지하고 UPDATE만 되돌리려면 DELETE 뒤에 저장점을 만든 후 그 저장점을 지정해 롤백해야 한다.</p>
-<h2 id="topic-5">기출 대비 자가진단 10문제</h2>
+<section class="review-guide" aria-labelledby="pdf-review">
+<h2 id="pdf-review">요약정리에서 보강한 판별 규칙</h2>
+<p>2021년 요약정리의 개념을 현재 치트시트에 연결했습니다. 자료의 과목 구성은 작성 당시 기준입니다.</p>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">헷갈리는 개념</th><th scope="col">문제에서 확인할 단서</th><th scope="col">연습</th></tr></thead>
+<tbody>
+<tr><td>스키마와 데이터 독립성</td><td>개념 스키마 변경을 외부 스키마에서 흡수하면 논리적 독립성. 저장 구조 변경을 개념 스키마에서 흡수하면 물리적 독립성.</td><td><a href="cbt.html?question=179">3번</a></td></tr>
+<tr><td>관계와 참여</td><td>관계명은 어떤 연관인지, 관계차수는 최대 연결 수, 선택성은 최소 연결 수를 표현한다. 양쪽 방향을 각각 읽는다.</td><td><a href="cbt.html?question=180">4번</a></td></tr>
+<tr><td>정규화와 반정규화</td><td>키의 일부에 종속되면 2NF, 비키 속성을 거쳐 종속되면 3NF를 점검한다. 조회 비용을 줄이려고 데이터를 중복 저장할 때는 갱신 시 정합성 유지 방법이 필요하다.</td><td><a href="cbt.html?question=181">5번</a> · <a href="cbt.html?question=182">6번</a></td></tr>
+<tr><td>윈도우 프레임</td><td>ROWS는 정렬된 행의 위치로 범위를 정한다. RANGE는 정렬값을 기준으로 범위를 정하므로 동점이 함께 포함될 수 있다. LAST_VALUE는 현재 프레임의 끝값을 반환한다.</td><td><a href="cbt.html?question=191">15번</a> · <a href="cbt.html?question=196">20번</a></td></tr>
+<tr><td>트랜잭션 제어</td><td>COMMIT 지점과 저장점을 먼저 표시하고, ROLLBACK에 저장점 이름이 있는지 확인한다. SQL Server의 안쪽 COMMIT은 중첩 횟수를 1 줄인다.</td><td><a href="cbt.html?question=197">21번</a> · <a href="cbt.html?question=198">22번</a></td></tr>
+</tbody></table></div>
+</section><h2 id="topic-5">기출 대비 자가진단 10문제</h2>
 <ol>
 <li>주문상세의 PK가 (주문번호, 상품번호)이고 상품번호만 알면 상품명을 알 수 있다. 어떤 정규형을 위반하는가?</li>
 <li><code>x</code>가 3, NULL, 6일 때 <code>COUNT(x)</code>, <code>SUM(x)</code>, <code>AVG(x)</code>는?</li>

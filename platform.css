@@ -65,3 +65,9 @@ body{margin:0;color:var(--ink);background:var(--paper);font:15px/1.65 "Malgun Go
   .study-grid{grid-template-columns:1fr}
 }
 .sheet-page tr[hidden]{display:none!important}
+.text-question p{font-size:18px;font-weight:650;color:var(--ink)}
+.text-question pre{overflow:auto;background:#eef3fa;border:1px solid var(--line);border-radius:8px;padding:16px}
+.answers.text-answers{grid-template-columns:1fr}
+.answers.text-answers button{display:flex;gap:12px;text-align:left;font-size:15px;align-items:baseline}
+.answers.text-answers button span:first-child{font-weight:750;flex:0 0 20px}
+.review-choices li{padding:4px 0}
